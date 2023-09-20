@@ -1,12 +1,10 @@
-
-
 /*
  * 230920
  * BOJ 1963 소수 경로
  * 골드 4
  * 
- * 메모리: KB
- * 시간: ms
+ * 메모리: 22464KB
+ * 시간: 156ms
  */
 
 import java.io.*;
@@ -70,13 +68,13 @@ public class Main {
 				// b 도달하지 못한 경우
 				for(int i=0;i<4;++i) { // 1~4번째 자리에 대해
 					StringBuilder tmp = new StringBuilder(cur.curnum);
-					for(int j=0;j<10;++j) {
+					for(int j=0;j<10;++j) { // 0~9로 바꿔봄
 						tmp.setCharAt(i, (char)(j+'0'));
 						String tmp2 = tmp.toString();
 						int next = Integer.parseInt(tmp2);
-						if(visited[next]==false && prime[next]==false) {
-							visited[next] = true;
-							queue.offer(new Num(tmp2, cur.cnt+1));
+						if(visited[next]==false && prime[next]==false) { // 바꾼 수가 아직 찾아본 적 없는 수이고 && 소수이면
+							visited[next] = true; // 방문 체크하고
+							queue.offer(new Num(tmp2, cur.cnt+1)); // 큐에 넣기
 						}
 					}
 				}
