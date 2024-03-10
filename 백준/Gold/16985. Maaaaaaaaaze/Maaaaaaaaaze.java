@@ -122,7 +122,7 @@ public class Main {
     }
 
     static boolean visited[][][];
-    static int tmpMinMove;
+//    static int tmpMinMove;
 
     static int simulate(int sx, int sy, int sz, int fx, int fy, int fz) {
         // maze[sx][sy][sz] 에서 maze[fx][fy][fz] 로 이동하는 경로 존재하면 해당 경로 길이
@@ -142,6 +142,7 @@ public class Main {
             Status cur = queue.poll();
 
             if (cur.moveCnt > minMove) break;
+            if (cur.moveCnt > 126) break;
 
             for (int i = 0; i < 6; ++i) {
                 int nx = cur.x + dx[i];
@@ -179,33 +180,33 @@ public class Main {
         return Integer.MAX_VALUE;
     }
 
-    static void dfs(int x, int y, int z, int fx, int fy, int fz, int moveCnt) {
-        if (x == fx && y == fy && z == fz) {
-            if (tmpMinMove > moveCnt) {
-                tmpMinMove = moveCnt;
-            }
-            return;
-        }
-
-        if (moveCnt > minMove) return;
-
-        for (int i = 0; i < 6; ++i) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            int nz = z + dz[i];
-
-            // 범위 벗어나는 경우
-            if (nx < 0 || nx >= 5 || ny < 0 || ny >= 5 || nz < 0 || nz >= 5) continue;
-
-            if (visited[nx][ny][nz]) continue;
-            // 이동 불가한 칸인 경우
-            if (maze[nx][ny][nz] == 0) continue;
-
-            visited[nx][ny][nz] = true;
-            dfs(nx, ny, nz, fx, fy, fz, moveCnt + 1);
-            visited[nx][ny][nz] = false;
-        }
-    }
+//    static void dfs(int x, int y, int z, int fx, int fy, int fz, int moveCnt) {
+//        if (x == fx && y == fy && z == fz) {
+//            if (tmpMinMove > moveCnt) {
+//                tmpMinMove = moveCnt;
+//            }
+//            return;
+//        }
+//
+//        if (moveCnt > minMove) return;
+//
+//        for (int i = 0; i < 6; ++i) {
+//            int nx = x + dx[i];
+//            int ny = y + dy[i];
+//            int nz = z + dz[i];
+//
+//            // 범위 벗어나는 경우
+//            if (nx < 0 || nx >= 5 || ny < 0 || ny >= 5 || nz < 0 || nz >= 5) continue;
+//
+//            if (visited[nx][ny][nz]) continue;
+//            // 이동 불가한 칸인 경우
+//            if (maze[nx][ny][nz] == 0) continue;
+//
+//            visited[nx][ny][nz] = true;
+//            dfs(nx, ny, nz, fx, fy, fz, moveCnt + 1);
+//            visited[nx][ny][nz] = false;
+//        }
+//    }
 
     static void rotate90(int z) { // board를 시계방향 90도 회전
         /*
@@ -262,8 +263,3 @@ public class Main {
     }
 
 }
-
-
-/*
-
- */
