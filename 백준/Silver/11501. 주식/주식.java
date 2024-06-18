@@ -19,32 +19,32 @@ public class Main {
     부호 있는 64bit 정수형?
      */
 
-    static class Node implements Comparable<Node> {
-        int value;
-        int day;
-
-        Node(int value, int day) {
-            this.value = value;
-            this.day = day;
-        }
-
-        @Override
-        public int compareTo(Node o) {
-            if (this.value < o.value) {
-                return 1;
-            } else if (this.value == o.value) {
-                if (this.day > o.day) {
-                    return 1;
-                } else if (this.day == o.day) {
-                    return 0;
-                } else {
-                    return -1;
-                }
-            } else { // this.value < o.value
-                return -1;
-            }
-        }
-    }
+//    static class Node implements Comparable<Node> {
+//        int value;
+//        int day;
+//
+//        Node(int value, int day) {
+//            this.value = value;
+//            this.day = day;
+//        }
+//
+//        @Override
+//        public int compareTo(Node o) {
+//            if (this.value < o.value) {
+//                return 1;
+//            } else if (this.value == o.value) {
+//                if (this.day > o.day) {
+//                    return 1;
+//                } else if (this.day == o.day) {
+//                    return 0;
+//                } else {
+//                    return -1;
+//                }
+//            } else { // this.value < o.value
+//                return -1;
+//            }
+//        }
+//    }
 
     static int n;
     static int[] nums;
@@ -60,11 +60,11 @@ public class Main {
             n = Integer.parseInt(in.readLine()); // 날의 수
             st = new StringTokenizer(in.readLine());
 
-            PriorityQueue<Node> pq = new PriorityQueue<>();
+//            PriorityQueue<Node> pq = new PriorityQueue<>();
             nums = new int[n]; //날별 주가
             for (int i = 0; i < n; ++i) {
                 nums[i] = Integer.parseInt(st.nextToken());
-                pq.add(new Node(nums[i], i));
+//                pq.add(new Node(nums[i], i));
             }
 
             profit = 0;
@@ -79,20 +79,29 @@ public class Main {
 
              */
 
-            int processed = 0;
-            while (!pq.isEmpty() && processed < n - 1) {
-                // 하나 뽑고
-                Node cur = pq.poll();
-                
-                if(cur.day < processed) continue;
+//            int processed = 0;
+//            while (!pq.isEmpty() && processed < n - 1) {
+//                // 하나 뽑고
+//                Node cur = pq.poll();
+//
+//                if(cur.day < processed) continue;
+//
+//                // 이거보다 앞에 있는 날에 모두 사고 + 이 날에 팔았을 때의 수익 profit에 계산해서 더하기
+//                for(int i = processed; i < cur.day; ++i) {
+//                    profit += cur.value - nums[i];
+//                }
+//
+//                // 처리한 날 수 업데이트
+//                processed = cur.day + 1;
+//            }
 
-                // 이거보다 앞에 있는 날에 모두 사고 + 이 날에 팔았을 때의 수익 profit에 계산해서 더하기
-                for (int i = processed; i < cur.day; ++i) {
-                    profit += cur.value - nums[i];
+            int maxValue = nums[n-1];
+            for(int i = n-2; i>=0; --i) {
+                if(maxValue > nums[i]) {
+                    profit += maxValue - nums[i];
+                } else if(maxValue < nums[i]) {
+                    maxValue = nums[i];
                 }
-
-                // 처리한 날 수 업데이트
-                processed = cur.day + 1;
             }
 
             sb.append(profit).append("\n");
