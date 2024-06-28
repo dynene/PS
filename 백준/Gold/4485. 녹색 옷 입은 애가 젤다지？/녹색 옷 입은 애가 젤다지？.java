@@ -2,7 +2,8 @@ import java.util.*;
 import java.io.*;
 
 /*
-240627
+RE... ㅠ_ㅠ
+240628
 BJ4485 녹색 옷 입은 애가 젤다지? - 골4
  */
 
@@ -68,12 +69,16 @@ public class Main {
                 Arrays.fill(visited[i], Integer.MAX_VALUE);
             }
 
-            Queue<Node> queue = new ArrayDeque<>();
+            PriorityQueue<Node> queue = new PriorityQueue<>();
             queue.add(new Node(0, 0, arr[0][0]));
             visited[0][0] = arr[0][0];
 
             while (!queue.isEmpty()) {
                 Node cur = queue.poll();
+
+                if (cur.x == n - 1 && cur.y == n - 1) {
+                    break;
+                }
 
                 for (int i = 0; i < 4; ++i) {
                     int nx = cur.x + dx[i];
