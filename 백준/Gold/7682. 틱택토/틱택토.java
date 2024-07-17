@@ -13,43 +13,7 @@ public class Main {
 
     X > O 순서로 놓음
     한 사람이 가로/세로/대각선 3칸 잇거나, 게임판 가득 차면 끝
-
-    XXX
-    OO.
-    XXX // invalid > X와 O의 개수 차이가 2 이상임. 불가능
-
-    XOX
-    OXO
-    XOX // valid > 발생 가능 O 최종 O.
-
-    OXO
-    XOX
-    OXO // invalid >> 발생 가능 X 최종 O. O가 X보다 많을 수 없음
-
-    XXO
-    OOX
-    XOX // valid >> 발생 가능 O 최종 O
-
-    XO,
-    OX,
-    ,,X // valid > 발생 가능 O 최종 O. X와 O 개수 차이 1이고, 완성된 거 있음
-
-    .XX
-    X.X
-    OOO // invalid > 발생 가능 X 최종 O. X와 O 개수 조건은 맞는데, O가 완성됐
-
-    X.O
-    O..
-    X.. // invalid > 발생 가능 O 최종 X. X와 O 개수는 조건에 맞는데, 아직 완성된 게 없음
-
-    OOX
-    XXO
-    OXO // invalid > 빌생 가능 X 최종 O. X보다 O 개수가 많음
-
-    XOX
-    XOX
-    XOO
-     */
+    */
 
     static char[][] board;
 
@@ -89,45 +53,12 @@ public class Main {
             }
 
             // X, O 조건 확인
-            int completedX = 0;
-            int completedO = 0;
-            // 가로 확인
-            for (int i = 0; i < 3; ++i) {
-                if (board[i][0] == 'X' && board[i][1] == 'X' && board[i][2] == 'X') {
-                    completedX++;
-                }
-                if (board[i][0] == 'O' && board[i][1] == 'O' && board[i][2] == 'O') {
-                    completedO++;
-                }
-            }
-            // 세로 확인
-            for (int i = 0; i < 3; ++i) {
-                if (board[0][i] == 'X' && board[1][i] == 'X' && board[2][i] == 'X') {
-                    completedX++;
-                }
-                if (board[0][i] == 'O' && board[1][i] == 'O' && board[2][i] == 'O') {
-                    completedO++;
-                }
-            }
-            // 대각선 확인 - X
-            if (board[0][0] == 'X' && board[1][1] == 'X' && board[2][2] == 'X') {
-                completedX++;
-            }
-            if (board[0][2] == 'X' && board[1][1] == 'X' && board[2][0] == 'X') {
-                completedX++;
-            }
-            // 대각선 확인 - O
-            if (board[0][0] == 'O' && board[1][1] == 'O' && board[2][2] == 'O') {
-                completedO++;
-            }
-            if (board[0][2] == 'O' && board[1][1] == 'O' && board[2][0] == 'O') {
-                completedO++;
-            }
-
+            boolean completedX = check('X');
+            boolean completedO = check('O');
 
             // 둘 다 완성 안 된 경우
             // cntOfEmpty == 0 이면 valid, 아니면 최종이 아니므로 invalid
-            if (completedX == 0 && completedO == 0) {
+            if (!completedX && !completedO) {
                 if (cntOfEmpty == 0) {
                     sb.append("valid").append("\n");
                 } else {
@@ -137,7 +68,7 @@ public class Main {
 
             // X만 완성된 경우
             // cntOfX-1 == cntOfO 이면 valid, 아니면 invalid
-            if (completedX != 0 && completedO == 0) {
+            else if (completedX && !completedO) {
                 if (cntOfX - 1 == cntOfO) {
                     sb.append("valid").append("\n");
                 } else {
@@ -147,7 +78,7 @@ public class Main {
 
             // O만 완성된 경우
             // cntOfX==cntOfO 이면 valid, 아니면 invalid
-            if (completedX == 0 && completedO != 0) {
+            else if (!completedX && completedO) {
                 if (cntOfX == cntOfO) {
                     sb.append("valid").append("\n");
                 } else {
@@ -155,11 +86,33 @@ public class Main {
                 }
             }
 
-            if (completedX != 0 && completedO != 0) {
+            else if (completedX && completedO) {
                 // 이런 경우는 불가능... 하지 않나? ;;
                 sb.append("invalid").append("\n");
             }
         }
 
+    }
+
+    static boolean check(char c) {
+
+        // 가로 확인
+        for (int i = 0; i < 3; ++i) {
+            if (board[i][0] == c && board[i][1] == c && board[i][2] == c) {
+                return true;
+            }
+        }
+        // 세로 확인
+        for (int i = 0; i < 3; ++i) {
+            if (board[0][i] == c && board[1][i] == c && board[2][i] == c) {
+                return true;
+            }
+        }
+        // 대각선 확인 - X
+        if ((board[0][0] == c && board[1][1] == c && board[2][2] == c) || (board[0][2] == c && board[1][1] == c && board[2][0] == c)) {
+            return true;
+        }
+
+        return false;
     }
 }
