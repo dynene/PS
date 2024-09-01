@@ -33,6 +33,8 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         hive = new int[m][m];
 
+//        int[][] grow = new int[n][3];
+
         // n일동안 반복
         int[] nums = new int[3];
         for (int i = 0; i < n; ++i) {
@@ -41,27 +43,31 @@ public class Main {
             nums[1] = Integer.parseInt(st.nextToken());
             nums[2] = Integer.parseInt(st.nextToken());
 
-            int inc = 0;
-            for (int j = 0; j < 2 * m - 1; ++j) {
+            for (int j = m - 1; j > 0; --j) {
                 // inc값 결정
-                if (j >= nums[0]) {
-                    if (j < nums[0] + nums[1]) {
-                        inc = 1;
-                    } else {
-                        inc = 2;
-                    }
+                if (nums[0] > 0) {
+                    nums[0]--;
+                } else if (nums[1] > 0) {
+                    nums[1]--;
+                    hive[j][0] += 1;
                 } else {
-                    // j가 nums[0]보다 작음. 아직 inc가 0임.
-                    inc = 0;
+                    nums[2]--;
+                    hive[j][0] += 2;
                 }
-
-                if (j < m) { // 0열: 입력값대로 채우기.
-                    hive[m - 1 - j][0] += inc;
-                } else { // 0행 1열부터: 0헹의 값이 해당 열의 증가값을 모두 결정함.
-                    hive[0][j - m + 1] += inc;
+            }
+            for (int j = 0; j < m; ++j) {
+                if (nums[0] > 0) {
+                    nums[0]--;
+                } else if (nums[1] > 0) {
+                    nums[1]--;
+                    hive[0][j] += 1;
+                } else {
+                    nums[2]--;
+                    hive[0][j] += 2;
                 }
             }
         }
+
 
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < m; ++j) {
