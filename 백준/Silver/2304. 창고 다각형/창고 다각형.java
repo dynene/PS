@@ -1,75 +1,88 @@
-import java.util.*;
-import java.io.*;
-
 /*
-240512
+240909
+23:10
 BJ2304 창고 다각형 - 실2
  */
 
+import java.util.*;
+import java.io.*;
+
 public class Main {
-    static class Pole implements Comparable<Pole> {
+
+    static int n;
+
+    static class Stick implements Comparable<Stick> {
         int l;
         int h;
 
-        Pole(int l, int h) {
+        Stick(int l, int h) {
             this.l = l;
             this.h = h;
         }
 
         @Override
-        public int compareTo(Pole o) {
+        public int compareTo(Stick o) {
             return this.l - o.l;
         }
     }
-
-    static int n;
-    static int result;
 
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         n = Integer.parseInt(in.readLine());
-        List<Pole> list = new ArrayList<>();
 
-
+        List<Stick> sticks = new ArrayList<>();
         for (int i = 0; i < n; ++i) {
             st = new StringTokenizer(in.readLine());
-            int l = Integer.parseInt(st.nextToken());
-            int h = Integer.parseInt(st.nextToken());
-            list.add(new Pole(l, h));
+            sticks.add(new Stick(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
         }
 
-        Collections.sort(list);
+        // 1. 일단 위치 기준으로 정렬
+        Collections.sort(sticks);
 
-        int top = 0;
-        for (int i = 1; i < n; ++i) {
-            if (list.get(top).h < list.get(i).h) {
-                top = i;
+        // 2. 넓이를 구해야 하는데...
+
+        // 최대 높이의 기둥 찾기
+        int maxIdx = 0;
+        int maxHeight = 0;
+        for (int i = 0; i < n; ++i) {
+            int curh = sticks.get(i).h;
+            if (curh > maxHeight) {
+                maxIdx = i;
+                maxHeight = curh;
             }
         }
 
-        // 위치순 정렬돼있으면 시작부터 -> <- 끝부터 탐색해 나가기 . . .
-        int leftTop = list.get(0).h;
-        int rightTop = list.get(n - 1).h;
+        int result = 0;
 
-        for (int i = 1; i <= top; ++i) {
-//            System.out.println(result);
-            result += (list.get(i).l - list.get(i-1).l) * leftTop;
-            if (list.get(i).h > leftTop) {
-                leftTop = list.get(i).h;
+        // 왼쪽 끝 -> maxIdx
+        Stack<Integer> stack = new Stack<>();
+        stack.push(sticks.get(0).h);
+        int pt = 0;
+        for (int i = sticks.get(0).l; i < sticks.get(maxIdx).l; ++i) { // 모든 높이에 대해..
+            if (i == sticks.get(pt + 1).l) pt++;
+
+            if (sticks.get(pt).h > stack.peek()) {
+                stack.push(sticks.get(pt).h);
             }
+            result += stack.peek();
         }
 
-        for (int i = n - 2; i >= top; --i) {
-//            System.out.println(result);
-            result += (list.get(i+1).l - list.get(i).l) * rightTop;
-            if(list.get(i).h > rightTop) {
-                rightTop = list.get(i).h;
+        // 오른쪽 끝 -> maxIdx
+        stack.clear();
+        stack.push(sticks.get(n - 1).h);
+        pt = n - 1;
+        for (int i = sticks.get(n - 1).l; i > sticks.get(maxIdx).l; --i) {
+            if (i == sticks.get(pt - 1).l) pt--;
+
+            if (sticks.get(pt).h > stack.peek()) {
+                stack.push(sticks.get(pt).h);
             }
+            result += stack.peek();
         }
 
-        result += list.get(top).h;
+        result += maxHeight;
         System.out.println(result);
     }
 }
