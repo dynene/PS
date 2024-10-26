@@ -11,7 +11,7 @@ public class Main {
     static int n, m, k;
     static int[][] arr;
 
-    static class Node implements Comparable<Node> {
+    static class Node {
         int x;
         int y;
         int cnt;
@@ -24,10 +24,10 @@ public class Main {
             this.dist = dist;
         }
 
-        @Override
-        public int compareTo(Node o) {
-            return this.dist - o.dist;
-        }
+//        @Override
+//        public int compareTo(Node o) {
+//            return this.dist - o.dist;
+//        }
     }
 
     static int[] dx = {-1, 1, 0, 0};
@@ -57,7 +57,8 @@ public class Main {
             return;
         }
 
-        PriorityQueue<Node> pq = new PriorityQueue<>();
+//        PriorityQueue<Node> pq = new PriorityQueue<>();
+        Queue<Node> pq = new ArrayDeque<>();
         boolean[][][] visited = new boolean[n][m][k + 1];
         pq.add(new Node(0, 0, 0, 1));
         visited[0][0][0] = true;
