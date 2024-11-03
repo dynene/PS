@@ -1,24 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-/*
- * 231114
- * BOJ 3190 뱀
- * 골드 4
- * 
- * 메모리 KB
- * 시간 ms
- */
-
 public class Main {
-
-	/*
-	 * nxn 보드 뱀: 1,1 에서 오른쪽 보고 시작
-	 * 
-	 * 1. 몸 길이 늘려서 머리를 다음 칸에 위치 2. 벽 or 자기 자신의 몸과 부딪히면 게임 끝 3-1. 이동한 칸에 사과 O => 사과
-	 * 없어지고, 꼬리 그대로 3-2. 이동한 칸에 사과 X => 꼬리 한 칸 줄임 (몸 길이 그대로란 뜻)
-	 * 
-	 */
 
 	static int[][] map;
 
@@ -28,19 +11,19 @@ public class Main {
 	static int result;
 
 	static int dx[] = { -1, 0, 1, 0 }; // 상 우 하 좌
-	static int dy[] = { 0, 1, 0, -1 }; // dir +1 하면 오른쪽, -1 하면 왼쪽 회전
+	static int dy[] = { 0, 1, 0, -1 };
 
 	static class Move {
 		int x;
 		int y;
 		char c;
 
-		Move(int x, char c) { // 방향 체크...
+		Move(int x, char c) { // 방향 체크
 			this.x = x;
 			this.c = c;
 		}
 
-		Move(int x, int y) { // 뱀...
+		Move(int x, int y) { // 뱀
 			this.x = x;
 			this.y = y;
 		}
@@ -65,14 +48,14 @@ public class Main {
 			st = new StringTokenizer(in.readLine());
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
-			map[a][b] = 1; // 사과는 1로 표시
+			map[a][b] = 1; // 사과 1
 		}
 
 		l = Integer.parseInt(in.readLine());
 		Queue<Move> queue = new ArrayDeque<>();
 		for (int i = 0; i < l; ++i) {
 			st = new StringTokenizer(in.readLine());
-			int x = Integer.parseInt(st.nextToken()); // 시작 시간으로부터 x초가 끝난 뒤에 c 방향으로 회전한다
+			int x = Integer.parseInt(st.nextToken()); // 시작 시간으로부터 x초가 끝난 뒤 c 방향으로 회전
 			char c = st.nextToken().charAt(0); // L: 왼쪽으로 방향 회전, D: 오른쪽으로 방향 회전
 			queue.offer(new Move(x, c));
 		}
@@ -99,14 +82,13 @@ public class Main {
 				map[nx][ny] = -1;
 				snake.addFirst(new Move(nx, ny)); // 머리 늘리기 - 앞에 넣어야 함
 				// 꼬리 그대로
-				// ...
 			} else if (map[nx][ny] == 0) { // 빈 칸이면...
 				// 뱀 채우기
 				map[nx][ny] = -1;
 				snake.addFirst(new Move(nx, ny)); // 머리 늘리기 - 앞에 넣어야 함
 				// 꼬리 줄이기
 				Move tail = snake.pollLast(); // 뒤에서 빼야 함
-				map[tail.x][tail.y] = 0; // 지나간 자리는 뱀도 사과도 뭣도 아니니까 0으로 만들어야 함...
+				map[tail.x][tail.y] = 0; // 지나간 자리 0
 			}
 
 			// 이번 초가 끝났으니까 방향 바꿔야 하는지 확인하기
