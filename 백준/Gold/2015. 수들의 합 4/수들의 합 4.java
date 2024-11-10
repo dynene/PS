@@ -10,7 +10,7 @@ import java.util.*;
 public class Main {
 
     static int n, k;
-    static int[] arr;
+//    static int[] arr;
     static int[] arrsum;
 
     public static void main(String[] args) throws Exception {
@@ -19,16 +19,13 @@ public class Main {
         n = Integer.parseInt(st.nextToken()); // 20만
         k = Integer.parseInt(st.nextToken()); // -20억...20억
 
-        arr = new int[n];
+//        arr = new int[n];
         arrsum = new int[n];
 
         st = new StringTokenizer(in.readLine());
-        for (int i = 0; i < n; ++i) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-        arrsum[0] = arr[0];
+        arrsum[0] = Integer.parseInt(st.nextToken());
         for (int i = 1; i < n; ++i) {
-            arrsum[i] = arrsum[i - 1] + arr[i];
+            arrsum[i] = arrsum[i - 1] + Integer.parseInt(st.nextToken());
         }
 
         HashMap<Integer, Integer> map = new HashMap<>();
@@ -50,7 +47,5 @@ public class Main {
         => 현재 x번째를 보고 있다면 arrsum[x]-k가 몇 번 나왔는지를 답에 더하고/arrsum[x]가 나왔다고 카운팅
 
          */
-
-
     }
 }
